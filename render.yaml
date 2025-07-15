@@ -36,7 +36,7 @@ databases:
   - name: hivedoc-db
     databaseName: hivedoc
     user: hivedoc
-    plan: pro-16gb
+    plan: basic-1gb
     postgresMajorVersion: "13"
     ipAllowList:
       - source: 0.0.0.0/0
