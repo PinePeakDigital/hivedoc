@@ -1,0 +1,43 @@
+# Reference:
+# https://docs.hedgedoc.org/setup/docker/
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: hivedoc-web
+    runtime: image
+    image:
+      url: quay.io/hedgedoc/hedgedoc:1.10.3
+    numInstances: 1
+    region: oregon
+    plan: starter
+    healthCheckPath: /
+    envVars:
+      - key: CMD_DB_URL
+        fromDatabase:
+          name: hivedoc-db
+          property: connectionString
+      - key: CMD_DOMAIN
+        sync: false # Prompt for a value in the Render Dashboard
+      - key: CMD_PROTOCOL_USESSL
+        value: "true"
+      - key: CMD_ALLOW_FREEURL
+        value: "true"
+      - key: CMD_CSP_ALLOW_FRAMING
+        value: "true"
+      - key: CMD_COOKIE_POLICY
+        value: "none"
+    disk:
+      name: uploads
+      mountPath: /hedgedoc/public/uploads
+      sizeGB: 10
+
+databases:
+  - name: hivedoc-db
+    databaseName: hivedoc
+    user: hivedoc
+    plan: pro-16gb
+    postgresMajorVersion: "13"
+    ipAllowList:
+      - source: 0.0.0.0/0
+        description: everywhere
