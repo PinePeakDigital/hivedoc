@@ -27,6 +27,8 @@ services:
         value: "true"
       - key: CMD_COOKIE_POLICY
         value: "none"
+      - key: CMD_RATE_LIMIT_NEW_NOTES
+        value: 0
     disk:
       name: uploads
       mountPath: /hedgedoc/public/uploads
