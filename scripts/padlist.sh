@@ -4,27 +4,22 @@
 SSH_TARGET="root@padm.us"
 DB_USER="root"
 DB_NAME="etherpad"
-LIMIT_NUM=100
 
 # SQL query to list pad slugs and their counts
 SQL_QUERY=$(cat <<EOF
-SELECT
-    REPLACE(
-        SUBSTRING_INDEX(
-            REGEXP_SUBSTR(
-                store.key,
-                '^pad(2readonly)?:[^:]+'
-            ),
-            ':',
-            -1
-        ),
-        'pad:',
-        ''
+SELECT DISTINCT
+    SUBSTRING(
+        store.key,
+        LOCATE(':', store.key) + 1,
+        CASE
+            WHEN LOCATE(':', store.key, LOCATE(':', store.key) + 1) > 0
+            THEN LOCATE(':', store.key, LOCATE(':', store.key) + 1) - LOCATE(':', store.key) - 1
+            ELSE LENGTH(store.key)
+        END
     ) AS padname
 FROM store
-GROUP BY padname
-ORDER BY padname DESC
-LIMIT $LIMIT_NUM;
+WHERE store.key LIKE 'pad:%' OR store.key LIKE 'pad2readonly:%'
+ORDER BY padname ASC;
 EOF
 )
 
