@@ -8,14 +8,13 @@
 # This script uses the HedgeDoc command line script[1] to import a list of pads from
 # [1]: https://github.com/hedgedoc/cli/blob/master/bin/hedgedoc
 
-if [ ! -f .env ]; then
-    echo "Error: .env file not found!" >&2
-    exit 1
-fi
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-set -a
-. .env
-set +a
+ENV="$DIR/../.env"
+
+if [ -f "$ENV" ]; then
+  export $(cat $ENV | xargs)
+fi
 
 echo "ETHERPAD_SERVER is $ETHERPAD_SERVER"
 echo "HEDGEDOC_SERVER is $HEDGEDOC_SERVER"

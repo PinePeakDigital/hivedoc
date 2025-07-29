@@ -12,10 +12,16 @@ ln -s $PWD/hedgedoc /usr/local/bin/hedgedoc
 
 Copy `.env.example` to `.env` and set contained variables.
 
-Save a file with all etherpad note IDs, one per line.
+Save a file with all etherpad note IDs, one per line:
+
+```bash
+./scripts/padlist.sh > pads.txt
+```
+
+Note that this script currently has a LIMIT on the query that you may wish to change or remove.
 
 Run the migration script:
 
 ```bash
-./migrate-etherpad.sh /path/to/etherpad-notes.txt
+./scripts/migrate-etherpad.sh ./pads.txt
 ```
