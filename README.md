@@ -18,8 +18,6 @@ Save a file with all etherpad note IDs, one per line:
 ./scripts/padlist.sh > pads.txt
 ```
 
-Note that this script currently has a LIMIT on the query that you may wish to change or remove.
-
 Run the migration script:
 
 ```bash
